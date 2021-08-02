@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/pdf">
+        <file>img/continental-pdf.png</file>
+        <file>img/ifps-pdf.png</file>
+        <file>img/mepbro-pdf.png</file>
+        <file>img/nahad-pdf.png</file>
+        <file>img/star-pdf.png</file>
+        <file>img/pressurevert.jpg</file>
+        <file>img/temperaturevert.jpg</file>
+    </qresource>
+</RCC>
