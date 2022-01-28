@@ -60,7 +60,8 @@ enum class TestType {
     Sensor1,
     Sensor2,
     UL,
-    CSA
+    CSA,
+    REJECTED
 };
 
 enum class ColumnType {

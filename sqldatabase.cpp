@@ -236,12 +236,15 @@ void SQLDatabase::addSyncTable(){
             continue;
         }
 
-        for(int q{0}; q < retlen; ++q){
-            // for each rets, put the PK into the datasync table.
+        qWarning() << "length: " << retlen;
+        //INSERT INTO DataSync (TableName, TablePK, Type) SELECT "Companies", PK, 0 FROM Companies
+         query.exec("INSERT INTO DataSync (TableName, TablePK, Type) SELECT \"" + tables.at(i) + "\", PK, 0 FROM " + tables.at(i));
 
+       /* for(int q{0}; q < retlen; ++q){
+            // for each rets, put the PK into the datasync table.
             AddSyncLog(tables.at(i), rets.at(q).second.toInt(), Sync::INSERT);
 
-        }
+        }*/
 
          //qWarning() << "3";
 
@@ -358,8 +361,8 @@ void SQLDatabase::initializeDatabase(){
                "OwnerPK INTEGER,"
                "locationPK INTEGER,"
                "TemplatePK INTEGER,"
-               "MFGDate TEXT,"
-               "EXPDate TEXT,"
+               "MFGDate INTEGER,"
+               "EXPDate INTEGER,"
                "CreatedBy TEXT,"
                "PONumber TEXT,"
                "CustomerIDNumber TEXT,"
@@ -383,7 +386,7 @@ void SQLDatabase::initializeDatabase(){
                "PK INTEGER PRIMARY KEY,"
                "HosePK INTEGER,"
                "OrderNumber TEXT,"
-               "Date TEXT,"
+               "Date INTEGER,"
                "ProofTestType TEXT,"
                "TargetLoad INTEGER,"
                "MaxLoad INTEGER,"
@@ -1421,17 +1424,32 @@ StrPair SQLDatabase::searchAction(std::vector<QString> getColumns, std::vector<Q
 
 CompanyID SQLDatabase::getNewPK(QString table){
     // take the table, and return what would be the next ID on the table. To be used BEFORE inserts
-    QString REQUEST = "SELECT PK FROM " + table;
+    QString REQUEST = "SELECT PK FROM " + table + " ORDER BY PK DESC LIMIT 1";
 
     QSqlQuery query;
     query.prepare(REQUEST);
 
     if(!query.exec()){
-     //   qWarning() << "ERROR @ getPK: " << query.lastError().text(); // ensure no errors occur during request.
-     //   qWarning() << query.executedQuery();
+    //    qWarning() << "ERROR @ getPK: " << query.lastError().text(); // ensure no errors occur during request.
+    //    qWarning() << query.executedQuery();
+    } else {
+    //    qWarning() << "Success in getting new PK.";
     }
 
-    return getQueryLength(query);
+
+
+    // new code to get the proper ID
+    int length = getQueryLength(query);
+
+    query.first();
+    query.previous();
+
+    if(length > 0){
+        query.next();
+        return query.value(0).toInt() + 1;
+    }
+
+    return 0;
 }
 
 bool SQLDatabase::updateAction(QString table, std::vector<std::pair<QString, DataPass>> updates, std::vector<std::pair<QString, DataPass>> filter){

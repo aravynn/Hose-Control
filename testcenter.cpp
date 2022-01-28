@@ -119,6 +119,9 @@ void HoseTracker::loadHoseTester(IDType id, int idCount){
 
     ui->ImageNames_TestCenter->setText("");
 
+    ui->SensorType_TestCenter->setCurrentIndex(0);
+    ui->FailPrint_TestCenter->setEnabled(false);
+
     QDate today;
     today = today.currentDate();
 
@@ -206,7 +209,7 @@ void HoseTracker::on_TestTime_changed(int t){
 void HoseTracker::on_FailPrint_clicked(){
    // qWarning() << "fail Print start";
     // stop the test, if active.
-    if(m_lock == false){
+    if(*m_lock == false){
         // test is still active. Stop it first.
         ui->StartButton_TestCenter->click();
     }
@@ -254,13 +257,13 @@ void HoseTracker::on_FailPrint_clicked(){
     // clean resources
     //delete m_ht;
 
-   // qWarning() << "Fail Print clicked"; //-------------------------------------------------------------------------------------------------------!!
+   // qWarning() << "Fail Print clicked";
 }
 
 void HoseTracker::on_PassPrint_clicked(){
     //qWarning() << "Pass Print start";
     // stop the test, if active.
-    if(m_lock == false){
+    if(*m_lock == false){
         // test is still active. Stop it first.
         ui->StartButton_TestCenter->click();
     }
@@ -409,5 +412,18 @@ void HoseTracker::on_FindDamageImage_clicked(){
             }
         }
 
+    }
+}
+
+void HoseTracker::on_TestType_changed(int type){
+    qWarning() << "Changed ID";
+
+    if(static_cast<TestType>(type) == TestType::REJECTED){
+        on_StartButton_clicked();
+        on_StartButton_clicked();
+
+        ui->FailPrint_TestCenter->setEnabled(true);
+    } else {
+        ui->FailPrint_TestCenter->setEnabled(*m_lock);
     }
 }

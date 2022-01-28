@@ -100,6 +100,7 @@ HoseTracker::HoseTracker(QWidget *parent)
     connect(ui->End2AddEndButton_AddHose, SIGNAL(clicked()), this, SLOT(on_AddEnd_clicked()));
     connect(ui->SaveChanges_AddHose, SIGNAL(clicked()), this, SLOT(on_HoseSaveChanges_clicked()));
     connect(ui->GoToTestHose_AddHose, SIGNAL(clicked()), this, SLOT(on_HoseGoToTest_clicked()));
+    connect(ui->AddAssetButton_AddHose, SIGNAL(clicked()), this, SLOT(on_AddAssetNumber_clicked()));
 
     // test center page
     connect(ui->FailPrint_TestCenter, SIGNAL(clicked()), this, SLOT(on_FailPrint_clicked()));
@@ -110,6 +111,7 @@ HoseTracker::HoseTracker(QWidget *parent)
     connect(ui->TestTimeMinutes_TestCenter, SIGNAL(valueChanged(int)), this, SLOT(on_TestTime_changed(int)));
     connect(ui->TestTimeSeconds_TestCenter, SIGNAL(valueChanged(int)), this, SLOT(on_TestTime_changed(int)));
     connect(ui->AddImage_TestCenter, SIGNAL(clicked()), this, SLOT(on_FindDamageImage_clicked()));
+    connect(ui->SensorType_TestCenter, SIGNAL(currentIndexChanged(int)), this, SLOT(on_TestType_changed(int)));
     m_lock = new bool(false);
 
     // test result page.

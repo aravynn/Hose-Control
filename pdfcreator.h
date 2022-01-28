@@ -37,7 +37,7 @@ private:
     std::string DBLtoSTR(double number);
 
     bool makeHeader();
-    bool makeChart();
+    bool makeChart(TestType type);
     int makeInfoArea(QString Title, std::vector<std::pair<QString, DataPass>> inserts, int xPos, int yPos, int passfail = -1);
     bool makeFooter();
 

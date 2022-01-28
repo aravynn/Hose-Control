@@ -10,6 +10,7 @@
 #include <QSignalMapper>
 #include <QCryptographicHash>
 #include <QProcess>
+#include <vector>
 
 #include "TrackerEnums.h"
 #include "sqldatabase.h"
@@ -107,6 +108,7 @@ private slots:
     void on_HoseSaveChanges_clicked();
     void on_HoseGoToTest_clicked();
     void loadHoseTestResult(CompanyID id);
+    void on_AddAssetNumber_clicked();
 
     // Test Center
     void loadHoseTester(IDType id, int idCount);
@@ -117,6 +119,7 @@ private slots:
     void on_TestTime_changed(int t);
     void on_StartButton_clicked();
     void on_FindDamageImage_clicked();
+    void on_TestType_changed(int type);
 
     // Test Resukts
     void loadTestResults(IDType id, int count, int offset = 0);
@@ -151,6 +154,8 @@ private:
     int m_LabelsExist = 0;
     int m_TableLines = 0;
     bool m_graphExist = false;
+
+    std::vector<QString> m_assetNumbers; // default asset numbers.
 
     // max per page
     int m_TableLimit = 100; // seems like a large enough number to rarely come up.

@@ -112,7 +112,9 @@ void HoseTracker::AddHoseClearPage(){
     ui->PONumber_AddHose->setEnabled(true);
     ui->RetestCheckBox_AddHose->setEnabled(true);
 
-
+    // reset the asset Numbers
+    ui->AssetList_AddHose->setText("<None Added>");
+    m_assetNumbers.resize(0);
 
 }
 void HoseTracker::SetHoseTemplate(CompanyID id){
@@ -206,7 +208,10 @@ void HoseTracker::AddHoseLoadHose(CompanyID id, int offset){
 
     Hose *h = new Hose(id);
 
-    ui->AssetNumbers_AddHose->setText(h->getAssetNumber());
+    //ui->AssetNumbers_AddHose->setText(h->getAssetNumber());
+    m_assetNumbers.push_back(h->getAssetNumber());
+    ui->AssetList_AddHose->setText(h->getAssetNumber());
+
     ui->ChipIds_AddHose->setText(h->getChipID());
 
     ui->HoseOwner_AddHose->setCurrentIndex(getOwnerDropdownIndex(h->getOwnerID()));
@@ -544,6 +549,11 @@ void HoseTracker::on_HoseSaveChanges_clicked(){
         return;
     }
 
+    if(m_assetNumbers.size() < 1){
+        ui->StatusBar->setText("Error: Please Enter Asset Number");
+        return;
+    }
+
     Company *c = new Company(getOwnerIDFromIndex(ui->HoseOwner_AddHose->currentIndex()));
 
     if(m_IDPass < 0){
@@ -553,10 +563,10 @@ void HoseTracker::on_HoseSaveChanges_clicked(){
         ui->StatusBar->setText("Status: Saving");
 
         // if this is a new hose, we need to explode the asset number and enter each individually.
-        QStringList assetno = ui->AssetNumbers_AddHose->text().split("|");
+        //QStringList assetno = ui->AssetNumbers_AddHose->text().split("|");
         QStringList chips = ui->ChipIds_AddHose->text().split("|");
         QStringList cidno = ui->CustomerIDNumber_AddHose->text().split("|");
-        int count = (int)assetno.size();
+        int count = (int)m_assetNumbers.size();
 
         m_IDSequence = count;
 
@@ -568,7 +578,7 @@ void HoseTracker::on_HoseSaveChanges_clicked(){
        //     qWarning() << "3 loop";
 
             Hose *h = new Hose(
-                        assetno.at(i),
+                        m_assetNumbers.at(i),
                         ((chips.size() > i) ? chips.at(i) : ""),
                         c->GetLocationByNumber(ui->HoseLocation_addHose->currentIndex() - 1).id,
                         getOwnerIDFromIndex(ui->HoseOwner_AddHose->currentIndex()),
@@ -612,7 +622,7 @@ void HoseTracker::on_HoseSaveChanges_clicked(){
 
       //  qWarning() << QString::number( getOwnerIDFromIndex(ui->HoseOwner_AddHose->currentIndex() ));
         h->UpdateHose(
-                    ui->AssetNumbers_AddHose->text(),
+                    m_assetNumbers.at(0), //ui->AssetNumbers_AddHose->text(),
                     ui->ChipIds_AddHose->text(),
                     getOwnerIDFromIndex(ui->HoseOwner_AddHose->currentIndex()),
                     c->GetLocationByNumber(ui->HoseLocation_addHose->currentIndex() - 1).id,
@@ -648,4 +658,23 @@ void HoseTracker::on_HoseGoToTest_clicked(){
 void HoseTracker::loadHoseTestResult(CompanyID id){
     // load the test result of ID.
     // apparently this is superfluous.
+}
+
+void HoseTracker::on_AddAssetNumber_clicked(){
+    // add a new hose number.
+    //qWarning() << "Add a hose asset number. ";
+
+    m_assetNumbers.push_back(ui->AssetNumbers_AddHose->text());
+
+    QString assetList;
+
+    if(ui->AssetList_AddHose->text() != "<None Added>"){
+        assetList = ui->AssetList_AddHose->text() + ", " + ui->AssetNumbers_AddHose->text();
+    } else {
+        assetList = ui->AssetNumbers_AddHose->text();
+    }
+
+    ui->AssetList_AddHose->setText(assetList);
+    ui->AssetNumbers_AddHose->setText("");
+
 }

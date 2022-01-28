@@ -109,7 +109,7 @@ bool PDFCreator::MakePDF(){
 
 
     // create the test graph chart
-    bool didChart = makeChart();
+    bool didChart = makeChart(m_HoseTest->getTestType());
 
 
     // build page 2 here. -------------------------------------------------------------------------------------------------------!!
@@ -154,10 +154,9 @@ bool PDFCreator::makeHeader(){
     return true;
 }
 
-bool PDFCreator::makeChart(){
+bool PDFCreator::makeChart(TestType type){
     // output the chart. Will always be same location and size.
     // width standard 279.
-
 
     m_pdf.setLineWidth(0);
 
@@ -165,6 +164,22 @@ bool PDFCreator::makeChart(){
     int Left {315}; // left edge
     int Width {279};
     int Height {172};
+
+    // in the case of a rejection we'll handle this here.
+    if(type == TestType::REJECTED){
+
+        m_pdf.setFillColor(224,224,224);
+        m_pdf.setFont(PDF::HELVETICA, 54);
+        m_pdf.showTextXY("REJECTED", Left, Bottom);
+        m_pdf.setFillColor(231,231,231);
+        m_pdf.showTextXY("REJECTED", Left, Bottom + 45);
+        m_pdf.setFillColor(238,238,238);
+        m_pdf.showTextXY("REJECTED", Left, Bottom + 90);
+        m_pdf.setFillColor(245,245,245);
+        m_pdf.showTextXY("REJECTED", Left, Bottom + 135);
+
+        return true;
+    }
 
     // place images of the vertical text and colors for pressure and temperature. These will be placed on
     // either edge since we cannot create vertical text with this PDF software. Maybe one day we'll try to
