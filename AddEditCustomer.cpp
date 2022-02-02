@@ -143,14 +143,18 @@ void HoseTracker::loadAddCustomerPage(int id, int offset){
 }
 
 void HoseTracker::on_CustomerNewHose_clicked(){
+    // load page to generate new hose
+
     loadPage(Pages::AddHose, m_IDPass, IDSendType::Customer);
 }
 
 void HoseTracker::on_CustomerViewHoses_clicked(){
+    // view customer hoses only
     loadPage(Pages::HoseCenter, m_IDPass);
 }
 
 void HoseTracker::on_CustomerSaveChanges_clicked(){
+    // save an alterations made to customer, unsaved changes are ignored.
 
     if(ui->CompanyName_AddCustomer->text() == ""){
         // not everything selected
@@ -225,12 +229,15 @@ void HoseTracker::on_CustomerSaveChanges_clicked(){
 
 void HoseTracker::on_CustomerEmail1_clicked(){
     // are we going to add this function?
+    // if the email application is initiated this will load that for emailing.
     QDesktopServices::openUrl(QUrl("mailto:" +  ui->MainEmail_AddCustomer->text()));
 
 }
 
 void HoseTracker::on_CustomerEmail2_clicked(){
     // are we going to add this function?
+
+    // if the email application is initiated this will load that for emailing.
      QDesktopServices::openUrl(QUrl("mailto:" +  ui->SecEmail_AddCustomer->text()));
 }
 

@@ -1,11 +1,14 @@
 #include "hosetemplates.h"
 
-HoseTemplates::HoseTemplates(){ // default constructor required for hose.
+HoseTemplates::HoseTemplates(){
+    // default constructor required for hose. Honestly probably this shouldn't exist however the format caused issues.
     m_db = new SQLDatabase();
     m_PK = -1; // will use this to prevent re-dipping starter call after the fact.
 }
 
 HoseTemplates::HoseTemplates(CompanyID id){
+    // instantiate the template from the given template id.
+
     m_db = new SQLDatabase(); // instantiate the database object.
 
     m_PK = id;
@@ -54,6 +57,8 @@ HoseTemplates::HoseTemplates(QString partNumber, QString name, QString manufactu
     QString innerDiameter, QString length, QString cutLength, int WP, int TP, int TestTime, int End1, int End2, QString image, QString notes) :
     m_PartNumber{partNumber}, m_Name{name}, m_Manufacturer{manufacturer}, m_Description{description}, m_DistributorRefNumber{distRefNo},
     m_InnerDiameter{innerDiameter}, m_OverallLength{length}, m_CutLength{cutLength}, m_WorkingPressure{WP}, m_TestPressure{TP}, m_TestTime{TestTime}, m_Notes{notes} {
+
+       // Create a new hose template from given data.
 
     m_db = new SQLDatabase;
 
@@ -143,6 +148,8 @@ bool HoseTemplates::loadFromID(CompanyID id){
 }
 
 HoseTemplates::~HoseTemplates(){
+    // delete dependencies for the template. Since a template is not required to have ends, we must check before delete or errors occur.
+
     delete m_db;
     if(m_HasEnds){
         delete m_End1;
@@ -283,6 +290,9 @@ QString HoseTemplates::moveImageToFolder(QString image){
 }
 
 bool HoseTemplates::removeOldImage(QString image){
+
+    // remove an existing image related to the template.
+
     HTDirectoryControl dir;
     //return true;
     if (image == "" ) return true; // the image is gone.
@@ -290,7 +300,7 @@ bool HoseTemplates::removeOldImage(QString image){
     return dir.deleteFile(image);
 }
 
-
+// template gets.
 QString HoseTemplates::GetPartNumber(){ return m_PartNumber; }
 QString HoseTemplates::GetName(){ return m_Name; }
 QString HoseTemplates::GetManufacturer(){ return m_Manufacturer; }

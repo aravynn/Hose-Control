@@ -9,6 +9,8 @@
 
 void HoseTracker::loadAddEditTemplatePage(int id){
     // if there is no ID, then we'll simply clear all and do nothing.
+    // load the edit page or a blank page based on the given ID.
+
     m_IDPass = id; // for the save or change function.
     m_IDSequence = 1;
 

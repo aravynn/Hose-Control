@@ -18,10 +18,10 @@ class Company
 {
 private:
     // data from Companies table.
-    QString m_Name;
-    Address m_Billing;
-    QString m_Notes;
-    CompanyID m_PK; // The ID.
+    QString m_Name;     // customer name
+    Address m_Billing;  // billing address, stores all lines.
+    QString m_Notes;    // note section, likely blank.
+    CompanyID m_PK;     // The ID from the DB
 
      SQLDatabase *e_db; // External database object pointer.
 

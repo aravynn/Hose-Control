@@ -9,6 +9,7 @@
 /**
  *
  * Create a push button option with a single "ID" sector to pass data between pages.
+ * I don't think this is used at all. Probably deprecated, however left for completeness.
  *
  */
 

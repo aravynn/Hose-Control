@@ -6,6 +6,9 @@
 // folder and that will force a reset. See reading list in case you lose the link for tutorial.
 // if embedded fails, we'll fall back to the DLL.
 
+// DataPass - used for seding and receiving data. The .first element should always be the name of the line,
+// and is used to generate the binding string, the second value is the actual value, and will be inferred by the given value.
+
 #include <vector>
 #include <string>
 #include <utility>

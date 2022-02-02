@@ -154,6 +154,8 @@ ImageType HTDirectoryControl::getFileType(QString file){
 bool HTDirectoryControl::isFileExisting(QString src){
     // check if file exists.
 
+   // qWarning() << src;
+
     return QFile::exists(src);
 }
 

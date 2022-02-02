@@ -280,7 +280,7 @@ void HoseTest::StartTest(CompanyID hoseID, int count, int holdTime, int targetLo
     m_hose = new Hose(hoseID);
     m_hoseExists = true;
     m_HoseID = hoseID;
-    m_HoseCount = count; // SET TO WORK FOR MANY HOSES ----------------------------------------------------------------------------------------------------!!
+    m_HoseCount = count;
 
     m_HoldTimeInSeconds = holdTime;
     m_TargetLoad = targetLoad;
@@ -581,7 +581,7 @@ QString HoseTest::AddTestImage(QString image, QString CompanyName){
 }
 
 
-
+// gets for test information.
 CompanyID HoseTest::getID(){ return m_PK; }
 CompanyID HoseTest::getHoseID(){ return m_HoseID; }
 CompanyID HoseTest::getOwnerID(){ return m_OwnerID; }

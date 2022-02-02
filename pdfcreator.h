@@ -22,6 +22,17 @@
 
 #include "pdf-vulcaneware/pdf.h" // for PDF generator. We might need to fix sourcing here.
 
+/**
+ * @brief The PDFCreator class
+ *
+ * This class manages and creates the PDF's direct from hose control for
+ * all tests. The structure is a container class for the Vulkanware software.
+ *
+ * Note: At least one known issue exists which loads an error on printing PDFs.
+ * It is currently unknown if the issue is related to our code or not.
+ * The issue may also come from the existing PDF library.
+ *
+ */
 
 
 class PDFCreator

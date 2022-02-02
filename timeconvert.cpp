@@ -15,6 +15,8 @@ QDate TimeConvert::convert(int year, int month, int day){ // assume works.
 
 QDate TimeConvert::convert(TimeInt daypoch){ // works
 
+    // takes the integer value for days(daypoch) and convert that number into a QDate object.
+
     // take time / 365 to get years
     int years = floor(daypoch / 365.25 );
 
@@ -46,7 +48,7 @@ QDate TimeConvert::convert(TimeInt daypoch){ // works
 
 QDate TimeConvert::convert(QString datetime){ // works
 
-  //  qWarning() << "Datetime: " << datetime;
+    // convert datetime string to QDate
 
     TimeInt daypoch = datetime.toLongLong(); // convert to long long for useage in coversion.
 
@@ -56,6 +58,9 @@ QDate TimeConvert::convert(QString datetime){ // works
 } // date/time as a string
 
 TimeInt TimeConvert::convert(QDate datetime){ // works
+
+    // convert to integer "daypoch"
+
     long long years = datetime.year();
     long long days = datetime.dayOfYear();
 

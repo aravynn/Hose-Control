@@ -5,6 +5,8 @@ HoseTracker::HoseTracker(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::HoseTracker)
 {
+    //load the application window and generate all button linkages.
+
     ui->setupUi(this);
     db = new SQLDatabase(); // initializes the database for all calls.
     db->startDB();
@@ -126,6 +128,7 @@ HoseTracker::HoseTracker(QWidget *parent)
 
 HoseTracker::~HoseTracker()
 {
+    // delete all generated pointers
     delete ui;
     delete db; // the SQL database will terminate here. use DB for all transactions.
     delete m_lock;

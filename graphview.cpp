@@ -11,6 +11,7 @@ GraphView::~GraphView(){
 
 void GraphView::paintEvent(QPaintEvent *event){
     // essential to make this work. called internally by the constructor
+    // manages the painting constructor for the graph on the test page.
 
     Q_UNUSED(event);
     if(m_ht == NULL){

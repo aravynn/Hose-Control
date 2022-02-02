@@ -58,11 +58,11 @@ void HoseTracker::loadHoseTester(IDType id, int idCount){
     // load the given hose ID's starting from ID up to ID Count. All hoses need to be tested simultaneously.
 
     m_IDPass = id; // for the ID to use.
-    m_IDSequence = idCount; // for how many to test.  - SET UP MULTITEST ----------------------------------------------------------------------------------------------!!
+    m_IDSequence = idCount; // for how many to test.  - SET UP MULTITEST
 
     tableClear();
 
-    m_ht = new HoseTest(); // load the hose test. BE SURE TO DELETE THIS BEFORE LEAVING PAGE. ALSO, STOP THE TEST!!! --------------------------------------------------!!
+    m_ht = new HoseTest(); // load the hose test. BE SURE TO DELETE THIS BEFORE LEAVING PAGE. ALSO, STOP THE TEST!!!
     m_htExist = true;
 
     Hose *h = new Hose(id); // load hose 1, since they all need to be the same regardless.
@@ -183,19 +183,19 @@ QString HoseTracker::makeTestNumber(CompanyID testid){
 
     QString i = QString::fromStdString(ss.str());
     */
+
     // cool as this testID system is, jeff would like this to work as a standardized number plus 1000. thats too easy.
-
-
-
     return QString::number(testid + 1000);
 }
 
 // slot functions for all buttons etc.
 
 void HoseTracker::on_TargetLoad_changed(QString s){
+    // update target load number for the window UI
     ui->MinPressure_TestCenter->setText(s + " PSI");
 }
 void HoseTracker::on_PeakLoad_changed(QString s){
+    //update peak load for the UI
     ui->MaxPressure_TestCenter->setText(s + " PSI");
 }
 
@@ -203,10 +203,13 @@ void HoseTracker::on_TestTime_changed(int t){
    // int seconds = ui->TestTimeMinutes_TestCenter->value() * 60 + ui->TestTimeSeconds_TestCenter->value();
     Q_UNUSED(t);
 
+    // force a reset of time remaining when we alter the testtime.
     ui->TimeRemaining_TestCenter->setText("0");
 }
 
 void HoseTracker::on_FailPrint_clicked(){
+    // this is a failed test, so end the existing test and save the result to the DB
+
    // qWarning() << "fail Print start";
     // stop the test, if active.
     if(*m_lock == false){
@@ -261,6 +264,8 @@ void HoseTracker::on_FailPrint_clicked(){
 }
 
 void HoseTracker::on_PassPrint_clicked(){
+    // this is a passed test, save the result to the DB
+
     //qWarning() << "Pass Print start";
     // stop the test, if active.
     if(*m_lock == false){
@@ -312,11 +317,11 @@ void HoseTracker::on_PassPrint_clicked(){
     // clean resources
 
 
-    //qWarning() << "Pass Print clicked"; //-------------------------------------------------------------------------------------------------------!!
 }
 
 void HoseTracker::on_StartButton_clicked(){
      // check to see if this is a START or STOP function.
+    // starts the current test using exsiting parameters.
 
     if(m_ht->GetActive()){
         // this test is actively occuring. stop processes.
@@ -416,7 +421,11 @@ void HoseTracker::on_FindDamageImage_clicked(){
 }
 
 void HoseTracker::on_TestType_changed(int type){
-    qWarning() << "Changed ID";
+    //qWarning() << "Changed ID";
+    // change the test type for other options for hose tests.
+    // currently I beleive that only Sensor tests and Rejected tests work, however other options may be
+    // in working condition, testing is required to determine.
+
 
     if(static_cast<TestType>(type) == TestType::REJECTED){
         on_StartButton_clicked();

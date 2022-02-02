@@ -1,16 +1,9 @@
 #include "fittingtemplate.h"
 
-/*
-query.exec("CREATE TABLE FittingTemplates("
-           "PK INTEGER PRIMARY KEY,"
-           "Name TEXT,"
-           "PartNumber TEXT,"
-           "Description TEXT,"
-           "AttachMethod TEXT)");
-*/
-
 FittingTemplate::FittingTemplate(CompanyID id) : m_PK{id} {
     // get the information from the DB.
+    // this loads all of the fitting information for an existing fitting
+
     m_db = new SQLDatabase;
     // get the information from the DB, and return to the variables in the class
 
@@ -97,12 +90,12 @@ void FittingTemplate::setAttachmentMethod(QString method){
     m_AttachMethod = method;
 }
 
-QString FittingTemplate::GetName() { return m_Name; }
+QString FittingTemplate::GetName() { return m_Name; }      //get the template name
 
-QString FittingTemplate::GetPartNumber() { return m_PartNumber; }
+QString FittingTemplate::GetPartNumber() { return m_PartNumber; }   // get the part number associated with this template
 
-CompanyID FittingTemplate::GetID() { return m_PK; }
+CompanyID FittingTemplate::GetID() { return m_PK; } // get the database key for this template
 
-QString FittingTemplate::GetDescription() { return m_Description; }
+QString FittingTemplate::GetDescription() { return m_Description; } // gets the description for this template. Likely not used, as descriptions are not displayed.
 
-QString FittingTemplate::GetAttachMethod() { return m_AttachMethod; }
+QString FittingTemplate::GetAttachMethod() { return m_AttachMethod; }   // get the attachment method.

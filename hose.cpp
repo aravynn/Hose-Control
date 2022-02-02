@@ -131,6 +131,8 @@ Hose::Hose(QString assetNumber, QString chipID, int locationID, CompanyID ownerI
 } // create a new.
 
 Hose::~Hose(){
+    // delete references
+
     delete m_db;
     delete m_Owner;
 }
@@ -140,7 +142,7 @@ bool Hose::UpdateHose(QString assetID, QString chipID, int ownerID, int location
                       int end1ID, int end2ID, QString end1Attach, QString end2Attach, QDate expDate, QString status, QString hoseNotes,
                       int WP, int TP, QString CompanyIDNumber){
 
-  //  qWarning() << "Ends:" << QString::number(end1ID) << QString::number(end2ID);
+    // update hose data. Note that this only updates existing data for the current hose and not the template information.
 
     m_ChipID = chipID;
     m_Location = locationID;
@@ -199,7 +201,7 @@ bool Hose::UpdateHose(QString assetID, QString chipID, int ownerID, int location
 
 }
 bool Hose::DecommissionHose(){
-
+    // set status to decommissioned and expiry to today.
     TimeConvert t;
 
     m_EXPDate = t.Today();
@@ -218,9 +220,9 @@ bool Hose::DecommissionHose(){
     filter.at(0) = {"PK", m_HoseID};
 
     return m_db->updateAction(table, inserts, filter);
-} // set status to decommissioned and expiry to today.
+}
 bool Hose::RenewHose(){
-
+    //reset expiry to +1 year, status is pass or active.
     TimeConvert t;
     QDate today = t.Today();
     today.addYears(1);
@@ -239,8 +241,9 @@ bool Hose::RenewHose(){
     filter.at(0) = {"PK", m_HoseID};
 
     return m_db->updateAction(table, inserts, filter);
-} //reset expiry to +1 year, status is pass or active.
+}
 bool Hose::AddNewChip(QString chipID){
+    // replace only the chip ID.
     m_ChipID = chipID;
 
     QString table = "Hoses";
@@ -253,8 +256,9 @@ bool Hose::AddNewChip(QString chipID){
     filter.at(0) = {"PK", m_HoseID};
 
     return m_db->updateAction(table, inserts, filter);
-} // replace only the chip ID.
+}
 
+// all the gets for associated hose data.
 CompanyID Hose::getHoseID(){ return m_HoseID; }
 QString Hose::getAssetNumber(){ return m_AssetNumber; }
 QString Hose::getChipID(){ return m_ChipID; }

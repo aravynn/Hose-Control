@@ -8,7 +8,7 @@
  */
 
 void HoseTracker::on_CSVChooseFile_clicked(){
-
+    // open a dialog to choose a CSV file for upload of mass information.
 
     QString directory = QFileDialog::getOpenFileName(this, tr("Open File"), "/documents", tr("File (*.csv)"));
 
@@ -17,8 +17,8 @@ void HoseTracker::on_CSVChooseFile_clicked(){
         ui->CSVFileLocation_Admin->setText(directory);
     }
 }
-void HoseTracker::on_CSVUploadFile_clicked(){ // THIS NEEDS FIXING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    //qWarning() << "Upload File Clicked";
+void HoseTracker::on_CSVUploadFile_clicked(){
+    // on click upload the file into the databse, based on selected options.
 
     SQLDatabase db;
 

@@ -112,7 +112,7 @@ bool PDFCreator::MakePDF(){
     bool didChart = makeChart(m_HoseTest->getTestType());
 
 
-    // build page 2 here. -------------------------------------------------------------------------------------------------------!!
+    // build page 2 here.
     makeImagePage();
 
 
@@ -667,9 +667,13 @@ QString PDFCreator::GetPDFPath(bool blankPath){
         newpath = directoryRoot + "/" +  pdfName + "_" + QString::number(i) + ".pdf"; // new path
         ++i; // iterate the _#
     }
+   // qWarning() << "test: " <<  finalpath << ' ' << newpath;
     if(!blankPath){
         return finalpath; // return the last created file path.
     }
+
+   // qWarning() << finalpath << ' ' << newpath;
+
     return newpath; // return the uncreated filepath
 }
 
@@ -691,6 +695,7 @@ bool PDFCreator::PDFExists(){
 }
 
 bool PDFCreator::makeImagePage(){
+    //Generate an image page for the test if images are generated for the PDF. Note that this only loads if content is given.
 
     std::vector<QString> images = m_HoseTest->getDamageImages();
 

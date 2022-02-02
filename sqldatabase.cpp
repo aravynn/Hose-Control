@@ -2,10 +2,12 @@
 
 SQLDatabase::SQLDatabase()
 {
-
+    // default constructor. Nothing is required to begin.
 }
 
 void SQLDatabase::startDB(){
+    // generate the connection to SQLite
+
     const QString DRIVER ("QSQLITE");
     const QString DBNAME {"HOSETRACKER"};
     if(QSqlDatabase::isDriverAvailable(DRIVER)){
@@ -35,7 +37,7 @@ void SQLDatabase::startDB(){
 }
 
 SQLDatabase::~SQLDatabase(){
-    // delete the database, and close the class.
+    // delete the database connection, and close the class.
     db.close();
 }
 
@@ -57,6 +59,10 @@ bool SQLDatabase::testConnection(){
 }
 
 void SQLDatabase::addSyncTable(){
+    // generate a new database sync table. This is required to exist for syncing information to the server MySQL
+    // note that to reset this data the DataSync and TableFormat tables should be deleted, and this will
+    // force all lines to generate new sync lines. This should be used to rebuild the remote database.
+
     QSqlQuery query;
 
     query.prepare("SELECT TableName FROM TableFormat WHERE PK = 0 LIMIT 1");
@@ -432,6 +438,8 @@ void SQLDatabase::initializeDatabase(){
 
 void SQLDatabase::dummyData(){
     // create dummy data for testing, 3 lines per area.
+    // note that this should NOT be run unless for testing purposes only.
+
    QSqlQuery query;
 
     // Companies. We'll have 3 companies entered.
@@ -1454,6 +1462,7 @@ CompanyID SQLDatabase::getNewPK(QString table){
 
 bool SQLDatabase::updateAction(QString table, std::vector<std::pair<QString, DataPass>> updates, std::vector<std::pair<QString, DataPass>> filter){
     // will use only the table name and the filter file for all update requirements.
+    // update a line/lines based on filter. Note that use of PK is strongly suggested.
 
     // possible dangerous assumption: all filter uses PK as first value.
     if(filter.at(0).first == "PK"){
@@ -1517,6 +1526,7 @@ bool SQLDatabase::updateAction(QString table, std::vector<std::pair<QString, Dat
 
 bool SQLDatabase::insertAction(QString table, std::vector<std::pair<QString, DataPass>> inserts){
     // create an INSERT statement for the database.
+    // will add a single line at a time.
 
     CompanyID id = getNewPK(table); // get the next PK, for checking 0 issue.
 
@@ -1579,6 +1589,8 @@ bool SQLDatabase::insertAction(QString table, std::vector<std::pair<QString, Dat
 }
 
 bool SQLDatabase::deleteAction(QString table, std::vector<std::pair<QString, DataPass>> filter){
+
+    //delete based on filter. STRONGLY suggested use of PK. MUST have a filter to be actionable.
 
     QString REQUEST = "DELETE FROM " + table + " WHERE";
 
@@ -1682,6 +1694,8 @@ bool SQLDatabase::Bind(QSqlQuery &query, std::vector<std::pair<QString, DataPass
 }
 
 int SQLDatabase::getQueryLength(QSqlQuery &query){
+    // get total length of the query. this is be CELLS not ROWS, which must be calculated based on existing selected columns.
+
     int totalrows = 0;
     if(query.last()){
         totalrows = query.at() + 1;
@@ -1694,6 +1708,7 @@ int SQLDatabase::getQueryLength(QSqlQuery &query){
 
 bool SQLDatabase::AddSyncLog(QString table, CompanyID ID, Sync SyncType){
     // create an INSERT statement for the database.
+    // this should probably be a trigger, honestly.
 
     //qWarning() << "Table: " << table << " ID " << ID;
 

@@ -2,6 +2,9 @@
 
 Company::Company(CompanyID id) : m_PK {id}
 {
+    // load the company information from the database using the assumed ID given. Should load all information fully.
+    // may cause a crash in the event of missing information, which shouldn't be possible when creating a company
+
     m_Billing.Type = AddrType::Billing; // use the BILLING type, always for this address.
 
     e_db = new SQLDatabase; // create database for initialization calls.

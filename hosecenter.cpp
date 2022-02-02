@@ -170,6 +170,7 @@ void HoseTracker::loadHoseCenter(QString SearchTerm, IDType id, int offset){
 
 void HoseTracker::on_HCSearch_clicked(){
     //SIGNAL loader function
+    // perform search with the given text
     tableClear();
     QString data = ui->SearchBar_HoseC->text();
     loadHoseCenter(data, m_IDPass); // enter the term in the search field here.

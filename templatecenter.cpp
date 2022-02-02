@@ -116,6 +116,7 @@ void HoseTracker::loadTemplateCenter(QString SearchTerm, int offset){
 
 void HoseTracker::on_TCSearch_clicked(){
     //SIGNAL loader function
+    // perform a search with the given information.
     tableClear();
     QString data = ui->SearchBar_TemplateC->text();
     loadTemplateCenter(data); // enter the term in the search field here.

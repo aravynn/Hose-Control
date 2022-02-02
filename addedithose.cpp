@@ -118,7 +118,6 @@ void HoseTracker::AddHoseClearPage(){
 
 }
 void HoseTracker::SetHoseTemplate(CompanyID id){
-  //  qWarning() << "set hose template" << QString::number(id);
     // set the hose template dropdown option. This will need to account for missing ID's
     if(id > -1){
         // confirm that an ID is actually given.
@@ -425,7 +424,7 @@ StrPair HoseTracker::getHoseTemplatePKs(){
 
 
 StrPair HoseTracker::getOwnerPKs(){
-  //  qWarning() << "get owner pks";
+    // get list of owner IDs for dropdown purposes.
     std::vector<QString> getColumns{"PK"};
     QString table = "Companies";
     std::vector<std::pair<QString, DataPass>> filter;
@@ -453,6 +452,7 @@ StrPair HoseTracker::getTestPKs(CompanyID hose, int limit, int offset){
 
 int HoseTracker::getOwnerDropdownIndex(CompanyID id){
  //   qWarning() << "get owner dropdown index";
+    // get the index of the selected option for dropdowns.
     StrPair data = getOwnerPKs();
     int dlen = (int)data.size();
     for(int i{0}; i < dlen; ++i){
@@ -536,6 +536,7 @@ void HoseTracker::on_HoseOwner_change(int c){
 
 void HoseTracker::on_HoseTemplate_change(int c){
    // qWarning() << "Hose Template Change";
+    // change the template and update information displayed
     SetHoseTemplate(c - 1);
 }
 

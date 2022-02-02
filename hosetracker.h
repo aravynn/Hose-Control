@@ -34,6 +34,14 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class HoseTracker; }
 QT_END_NAMESPACE
 
+/**
+ * @brief The HoseTracker class
+ *
+ * This is the main UI element for the application
+ * This class handles all button presses and other actions performed.
+ *
+ */
+
 class HoseTracker : public QMainWindow
 {
     Q_OBJECT
@@ -57,18 +65,18 @@ private slots:
     void on_Quit_clicked();
     void on_PageBack_clicked();
 
-    // homepage functions
+    // homepage functions - in homepage.cpp
     void loadSyncResults();
     void on_Sync_clicked();
 
 
-    // hose center functions
+    // hose center functions - in hosecenter.cpp
     void on_HCSearch_clicked();
 
-    // customer center functions
+    // customer center functions - in customercenter.cpp
     void on_CCSearch_clicked();
 
-    //Add customer functions
+    //Add customer functions - in addeditcustomer.cpp
     void loadAddCustomerPage(int id, int offset = 0);
     void on_CustomerNewHose_clicked();
     void on_CustomerViewHoses_clicked();
@@ -79,12 +87,12 @@ private slots:
 
 
 
-    // Template center functions
+    // Template center functions - in templatecenter.cpp
     void on_TCSearch_clicked();
     void on_TCEdit_clicked(IDType i);
     void on_TCNewHose_clicked(IDType i);
 
-    // add/edit templates
+    // add/edit templates - in addedittemplate.cpp
     void on_CouplingTemplate_Change(int c);
     void on_SaveChangesTemplate_clicked();
     void on_CreateHoseTemplate_clicked();
@@ -92,10 +100,10 @@ private slots:
     void loadFittingDropdowns();
     void on_FindImage_clicked();
 
-    // add fitting templates
+    // add fitting templates - in addfittingtemplate.cpp
     void on_SaveFittingTemplate_clicked();
 
-    // add edit hose
+    // add edit hose  - in addedithose.cpp
     void AddHoseClearPage();
     void SetHoseTemplate(CompanyID id);
     void SetCompany(CompanyID id);
@@ -110,7 +118,7 @@ private slots:
     void loadHoseTestResult(CompanyID id);
     void on_AddAssetNumber_clicked();
 
-    // Test Center
+    // Test Center - in testcenter.cpp
     void loadHoseTester(IDType id, int idCount);
     void on_FailPrint_clicked();
     void on_PassPrint_clicked();
@@ -121,13 +129,13 @@ private slots:
     void on_FindDamageImage_clicked();
     void on_TestType_changed(int type);
 
-    // Test Resukts
+    // Test Resukts - in testresults.cpp
     void loadTestResults(IDType id, int count, int offset = 0);
     void on_RetestHose_clicked();
     void on_ViewPDF_clicked();
     void updateGraph();
 
-    // admin page
+    // admin page - in adminpage.cpp
     void on_CSVChooseFile_clicked();
     void on_CSVUploadFile_clicked();
 

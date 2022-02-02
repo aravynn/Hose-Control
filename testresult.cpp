@@ -103,14 +103,16 @@ void HoseTracker::on_RetestHose_clicked(){
 
 void HoseTracker::on_ViewPDF_clicked(){
 
+    // generate the PDF and load it in the default PDF loader for the machine.
+
     ui->StatusBar->setText("Status: Creating PDF");
 
     // create and view the PDF.
     PDFCreator p{m_IDPass}; // pdf for the given ID.
 
-    if(!p.PDFExists()){
+    //if(!p.PDFExists()){
         p.MakePDF();
-    }
+    //}
     QDesktopServices::openUrl(QUrl(p.GetPDFPath()));
 
     ui->StatusBar->setText("Status: Ready");

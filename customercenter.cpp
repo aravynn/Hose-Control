@@ -158,6 +158,7 @@ void HoseTracker::loadCustomerCenter(QString SearchTerm, int offset){
 
 void HoseTracker::on_CCSearch_clicked(){
     //SIGNAL loader function
+    // search based on given information.
     tableClear();
     QString data = ui->SearchBar_CustomerC->text();
     loadCustomerCenter(data); // enter the term in the search field here.

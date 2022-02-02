@@ -21,7 +21,7 @@ class HoseTemplates
 private: // only accessable within class.
     SQLDatabase *m_db;
 
-    CompanyID m_PK;
+    CompanyID m_PK;                 //
     QString m_PartNumber;           //
     QString m_Name;                 //
     QString m_Manufacturer;         //

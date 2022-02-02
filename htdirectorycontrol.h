@@ -7,9 +7,9 @@
 
 // directory setup, in c:/users/<username>/documents/
 //hosetracker/
-//  - PDF/      // for storing PDF's created for users.
+//  - PDF/      // for storing PDF's created for tests. If they exist they will not rewrite
 //  - Images/   // for storing images generated for users.
-//  - DB/       // for storing the central database, data.sqlite
+//  - DB/       // for storing the central database, data.sqlite, as well as the config file for database sync.
 
 #include <QDebug>
 #include <QDir>
