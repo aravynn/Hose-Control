@@ -1,0 +1,146 @@
+Doumentation for the hosecontrol application, 
+written in c++ using the QT framework
+
+Dependencies
+	QT requires the ESI DLL from ESI, the creator of the pressure sensors. Access to this DLL can be retrieved from the company directly, and is listed in the box with every sensor.
+
+Pages
+	Login
+		- This page is unused, and can be considered an ignorable asset. Designed with the intention of a direct connection with MySQL via the MySQL connector, which is not created. 
+	Home
+		- The main page and entry point for the application. This page is designed to show the most recent hoses created. This page has several parts
+			Buttons: Hose Center, Customer Center, and Template center load the corresponding page. The Add Hose button loads the add hose page, and each line that is currently visible with a view hose button loads that hose in the add hose page. 
+			Additionally, at the bottom of the page is numbered tabs to cycle through the recent hoses, which are limited to the number that will load, to improve speed. 
+			There is also a "sync bar" which shows the current sync status (lines to sync) as well as a sync button, currently dusabled. The sytnc button has no working backend, as it would require the MySQL addition to be complete. 
+			The admin link opens the admin area.
+			Lastly, at the very bottom is a bar with the application status, THis simply shows what the application is doing at any time during processing, and is visible on every page.
+			
+	HoseCenter
+		The Hose center display shows by default all of the most recent hoses in production. When a search term has been entered, this will display all hoses that might match the specified term.
+			The home button returns to home
+			Add hose will load the add hose page
+			Search bar is used to enter the search term, with a button to search
+			the main area displays all hoses, and gives the option to view the hose via edit, or test the hose directly
+	Customer Center
+		Similar in function to the hose center, however works for customers. 
+			Home returns home, 
+			Add customer moves to add customer page. 
+			in the main section per customer, the edit company loads the add/edit page, while view hoses will load the hose center with a default search term of the company name/id
+	Admin Area
+		This area is mainly only for the initial load of the application or to load many products at the same time. This is mostly for CSV files. 
+			Home button returns home, 
+			"force resync" is disabled, as there is no MySQL function, however this would cause a complete resync of the database TO the application, erasing all content in SQLite
+			import CSV takes a file using a modal window, a default separator as well as an option for the file type to load. Lastly, the columns for upload are displayed below for easy reading and future use.
+	Hose Templates 
+		Like the customer center and Hose center, this displays the most recent templates, or allows user search. 
+			Home button returns home. 
+			The new template button loads the add hose template page.
+			The search temaplates bar allows for a user input with a button press.
+			The templates section displays all template options with buttons for viewing/editing temaplates, as well as a new hose button, which will load the add hose page with the default template selected.
+	Add Customer
+		The add customer page creates and saves new customers to the database. Some sections are required to be filled for the application to work. If this page is loaded from an existing customer, then all information previously filled for that user will be entered into the form.
+			Home button returns home, 
+			Back button loads the previous page. 
+			New hose will create a new hose using the current customer, assuming they have saved the data
+			The save button must be pressed to save data in this form. It is also required before pressing new hose
+			Company name field is required. 
+			For contact information, these fields will be saved to a different table than the customer information, some information here is required. Addiotnally, the email buttons will attmempt to load whatever email application is on the computer to prepare an email to the client. 
+			Billing address is required, while additional locations are optional. Information must be saved before adding additional locations. 
+			The locations area shows all saved locations, including the current billing address.
+	Add Template
+		As per customer, this allows saving a new template for hoses. If loaded from an existing template, data will be preloaded. Some fields are required. 
+			Home, back, and save work as before, create hose loads the add hose page with preloaded template. 
+			The home template name and part number are required. Manufacturer and description are optional. 
+			Hose attributes are mostly optional, though all information entered is automatically passed to the hose page when using this template, so filling is suggested. Any information here cannot be overridden on the hose page itself. 
+			Test time should be typically 5 mintes, and a test pressure at 1.5x working
+			The image is optional but loads on every page using the template.
+			Ends are required, and will autofill on selection. 
+			Adding a new coupling can be done with the add end button. 
+	Add Fitting Template
+		This small page creates a new fitting template to be used on templates and hoses. These are essential to be created for all hoses. Note that notes are not used in the application and are optional. 
+	Add Hose
+		Create a new hose based on a customer as well as a template. Customer, location and template are required values. 
+			Home, back and Save work as expected. Test will load the testing screen for this hose. 
+			Asset numbers should be entered one by one, then press "add" to add them to the list. If generating more than a single hose, multiple hoses can be simultaneously loaded, and tested in 1 large grouping. Note that the grouping is limited to the test bench for number of hoses that can be built at once. 
+			Chip ID's are an optional feature, and not required. Note that they should be separated by a | (veritical spacer) 
+			Customer PO is the customers given number
+			assembled by should be the workers initials. 
+			customer ID # is an optional number to denote the hose for the customer. 
+			Manufacture date should always be today, and expiry is typically 1 year, autofilled. Retest hose check has no "real" impact.
+			The template attributes are visible, however cannot be edited. If edits are needed, edit the template first. 
+			ends hould be set for every hose. 
+			The hose test window shows all tests completed for the current hose. Retest date shows the next approximate date for testing. 
+	Hose Testing 
+		The test center is the heart of the application. This center manages all of the test information for the current test, then saves the final information when a test is complete. 
+			Home and back buttons work as expected. 
+			The start button starts the current test with the currently entered testing information. 
+			Fail and print or pass and print are used only on the completion of the page. They save the test information and move the user to the test results page. 
+			The active pressure window, when active, shows the current PSI from the sensor as well as the given minimum and maximum expected pressure. 
+			The time elapsed view shows total seconds for current test time, note that this is total time, not total valid test time, so it may be longer than the test time set.
+			Testing data - for all essential information for the current test. 
+				The test type has 5 options, of which only 2 are valid. The first option for sensor test runs a real test, using the sensor as epxected. 
+				The -blank- is a placeholder in case additional sensors are required. 
+				The UL and CSA options are for testing without actually hooking up a hose, however these sections are incomplete and do not function as intended. These will produce test certificates, however they lack all information identifying them for the appropriate certification board. Additionally, you must start then stop the test to unlock pass or faill buttons to proceed. 
+				Finally, the rejected hose option allows the worker to automatically reject a hose that is obviously flawed, and retain information about the hoses status to the DB.
+			Target load and peak load (test pressure and maximum) can be adjusted here if required before running a new test, additionally, testing time can also be adjusted. Additional fields are included to be filled out.
+			Lastly, the add image button allows the addition of up to 4 hose images as proof to include in a hose test certificate. These will be automatically added to the second page of the test. 
+			The visual inspection area is a "quick list" of issues for a hose that may cause rejection or failure. If the worker detects any, they should be checked, and will appear on the final certificate, regardless of pass or fail. 
+	Test Results 
+		This page displays the completed resultsof a hose test. This includes test information, owner, and the graphed information
+			The home and back work as expected
+			Retest hose loads the test screen for the hose again. 
+			View PDF generates a new PDF (always) adding a -# if it has been generated before. 
+			The test graph shows the results of the test information. 
+			The Raw data view shows a full printout of all data saved during the test, including second by second pressure and temperature as read by the sensor. 
+	Help
+		The help page is a very incomplete page that requires overhaul. Almost no information on here is useful or valid. 
+
+Classes for OOP
+	HoseControl is written in an OOP format, as per the standard both for C++ as well as QT. most functionality is contained within classes, that are specified below: 
+		Company
+			this function loads and manages all data for companies. it is loaded in multiple locations whenever customer information is needed. 
+			Company has 2 .cpp files, as company and comapnysql
+		databutton
+			This is a deprecated class to be ignored, I don't think it is used in final production			
+		Fittingtemplate
+			THis loads all information for fitting templates. Used by hoses and hose tests. Will throw errors if referenced and not existing.
+		graphview
+			Generates the graphs for both the live testing as well as the results page. Mostly UI functions for QT
+		hose
+			this extends hosetemplates and loads all information for the current hose object. 
+		hosetemplates
+			This manages all data for hose templates
+		hosetest
+			This manages the hose test information, and the pointers for the test threads and graph. 
+		hosetracker
+			This is the main c++ access point for the entire appication, and runs the user interface. This has many different cpp files associated, one for each main page of the application, as well as hosetracker.cpp for all main centralized functionality.
+		htdirectorycontrol
+			This class loads and manages the storage location in the users documents folder. This stores a fair amount of information to the documents folder, as documented below. 
+		pdfcreator
+			This generates the PDF using the vulcanware PDF generator. This has some issues, notably generating errors on printing of a PDF, however this does not seem to affect printing or usage. 
+		sqldatabase
+			This manages all database calls through a series of simple queries. This does so in an indirect way to prevent SQL injection wether intentional or not. 
+		testthread
+			This is not a class, but rather a thread function to actually manage the sensor and information. This works pretty simply to load the sensor, start the test, and save the information to a pointered list of floats. Also uses a bool to allow the thread to be closed prematurely.
+		timeconvert
+			This static class is designed to convert integers to and from a date object, stored as an integer of days. 
+		trackerenums
+			enums used globally by the application
+		trackerstructs
+			structs used globally for the application
+		user
+			Deprecated, has no use.
+		webconnector
+			Deprecated, has no use. 
+	
+Data Storage
+	Application data is stored is the following folder:
+		/<user>/documents/hosetracker/
+					/db/
+					/pdf/
+					/images/
+	This structure has 3 subfolders. The DB folder stores the sqlite database, as well as the config file for the sync buddy app
+	The PDF folder is filled with subfolders assigned for each customer, holding their respective hose test certificates. 
+	The images folder stores the images associated with tests, as well as all images for the hose templates. 
+	images for templates are default stored in the mepbrothers/ company folder, and are named as per type.
+	PDFs are named for their test number, and every time the test is reloaded as a PDF, a -# is appended to the file name, to prevent overwriting. 
